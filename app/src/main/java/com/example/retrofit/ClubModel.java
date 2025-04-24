@@ -9,17 +9,15 @@ public class ClubModel {
     @SerializedName("strStadium")
     private String stadion;
 
-    @SerializedName("strTeamBadge")
+    @SerializedName("strBadge")
     private String imageUrl;
 
-    // Constructor
     public ClubModel(String namaClub, String stadion, String imageUrl) {
         this.namaClub = namaClub;
         this.stadion = stadion;
         this.imageUrl = imageUrl;
     }
 
-    // Getter and Setter methods
     public String getNamaClub() {
         return namaClub;
     }

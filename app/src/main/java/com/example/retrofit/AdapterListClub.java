@@ -62,8 +62,8 @@ public class AdapterListClub extends RecyclerView.Adapter<AdapterListClub.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
             tvNamaClub = itemView.findViewById(R.id.tvNamaClub);
-            tvStadion = itemView.findViewById(R.id.tvDeskripsiClub); // stadion dipakai di sini
-            imgClub = itemView.findViewById(R.id.imgClub); // ganti kalau imageView kamu beda
+            tvStadion = itemView.findViewById(R.id.tvDeskripsiClub);
+            imgClub = itemView.findViewById(R.id.imgClub);
         }
     }
 }
