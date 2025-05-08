@@ -19,7 +19,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements AdapterListClub.OnItemClickListener {
+public class PremiereLeague extends AppCompatActivity implements AdapterListClub.OnItemClickListener {
 
     RecyclerView rvListClub;
     AdapterListClub adapterListClub;
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements AdapterListClub.O
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        ApiService apiService = retrofit.create(ApiService.class);
+        ApiServicePremiere apiService = retrofit.create(ApiServicePremiere.class);
         Call<ClubResponse> call = apiService.getAllTeams();
 
         call.enqueue(new Callback<ClubResponse>() {
@@ -61,18 +61,18 @@ public class MainActivity extends AppCompatActivity implements AdapterListClub.O
                 pbLoading.setVisibility(View.GONE);
                 if (response.isSuccessful() && response.body() != null) {
                     dataClub = new ArrayList<>(response.body().getTeams());
-                    adapterListClub = new AdapterListClub(dataClub, MainActivity.this);
+                    adapterListClub = new AdapterListClub(dataClub, PremiereLeague.this);
                     rvListClub.setAdapter(adapterListClub);
                     rvListClub.setVisibility(View.VISIBLE);
                 } else {
-                    Toast.makeText(MainActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PremiereLeague.this, "Failed to load data", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ClubResponse> call, Throwable t) {
                 pbLoading.setVisibility(View.GONE);
-                Toast.makeText(MainActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(PremiereLeague.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements AdapterListClub.O
     public void onItemClick(ClubModel clubModel) {
         Toast.makeText(this, clubModel.getNamaClub() + " - " + clubModel.getStadion(), Toast.LENGTH_SHORT).show();
 
-        Intent in = new Intent(MainActivity.this, DetailClub.class);
+        Intent in = new Intent(PremiereLeague.this, DetailClub.class);
         in.putExtra("namaClub", clubModel.getNamaClub());
         in.putExtra("stadion", clubModel.getStadion());
         in.putExtra("imageUrl", clubModel.getImageUrl());
