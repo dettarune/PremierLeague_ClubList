@@ -87,4 +87,6 @@ public class MainActivity extends AppCompatActivity implements AdapterListClub.O
         in.putExtra("imageUrl", clubModel.getImageUrl());
         startActivity(in);
     }
+
+
 }
