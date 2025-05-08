@@ -2,6 +2,8 @@ package com.example.retrofit;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements AdapterListClub.O
     RecyclerView rvListClub;
     AdapterListClub adapterListClub;
     ArrayList<ClubModel> dataClub = new ArrayList<>();
+    ProgressBar pbLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +33,19 @@ public class MainActivity extends AppCompatActivity implements AdapterListClub.O
         setContentView(R.layout.activity_main);
 
         rvListClub = findViewById(R.id.rvListClub);
+        pbLoading = findViewById(R.id.pbLoading);
+
+        setupRecyclerView();
+        fetchDataClub();
+    }
+
+    private void setupRecyclerView() {
         rvListClub.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private void fetchDataClub() {
+        pbLoading.setVisibility(View.VISIBLE);
+        rvListClub.setVisibility(View.GONE);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://www.thesportsdb.com")
@@ -38,15 +53,17 @@ public class MainActivity extends AppCompatActivity implements AdapterListClub.O
                 .build();
 
         ApiService apiService = retrofit.create(ApiService.class);
-        Call<ClubResponse> call = apiService.getAllTeams("English Premier League");
+        Call<ClubResponse> call = apiService.getAllTeams();
 
         call.enqueue(new Callback<ClubResponse>() {
             @Override
             public void onResponse(Call<ClubResponse> call, Response<ClubResponse> response) {
+                pbLoading.setVisibility(View.GONE);
                 if (response.isSuccessful() && response.body() != null) {
                     dataClub = new ArrayList<>(response.body().getTeams());
                     adapterListClub = new AdapterListClub(dataClub, MainActivity.this);
                     rvListClub.setAdapter(adapterListClub);
+                    rvListClub.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(MainActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
                 }
@@ -54,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements AdapterListClub.O
 
             @Override
             public void onFailure(Call<ClubResponse> call, Throwable t) {
+                pbLoading.setVisibility(View.GONE);
                 Toast.makeText(MainActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

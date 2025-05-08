@@ -18,27 +18,14 @@ public class ClubModel {
         this.imageUrl = imageUrl;
     }
 
-    public String getNamaClub() {
-        return namaClub;
-    }
-
-    public void setNamaClub(String namaClub) {
-        this.namaClub = namaClub;
-    }
+    public String getNamaClub() {return namaClub;}
 
     public String getStadion() {
         return stadion;
-    }
-
-    public void setStadion(String stadion) {
-        this.stadion = stadion;
     }
 
     public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 }
